@@ -6,20 +6,22 @@ class CounterInitialValue extends React.Component {
       debugger;
       super();
       this.state = {
-        counter: props.props.val
+        counter: props.props.priority
       };
     }
-    inc = () => {
-      const {counter} = this.state;
 
+    componentWillReceiveProps(props) {
       debugger;
       this.setState(
         {
-          counter: counter +1
+          counter: props.props.priority
         }
       );
+    }
 
-      this.props.props.onChange(counter +1);
+    inc = () => {
+     const {counter} = this.state;
+      this.props.props.inc(counter +1);
     }
 
     dec = () => {
