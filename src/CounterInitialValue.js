@@ -1,24 +1,28 @@
 import React from 'react';
 
-class Counter extends React.Component {
+class CounterInitialValue extends React.Component {
 
-    constructor() {
+    constructor(props) {
+      debugger;
       super();
       this.state = {
-        counter: 0
+        counter: props.props.val
       };
-      this.dec = this.dec.bind(this);
     }
     inc = () => {
+      const {counter} = this.state;
+
       debugger;
       this.setState(
         {
-          counter: this.state.counter +1
+          counter: counter +1
         }
       );
+
+      this.props.props.onChange(counter +1);
     }
 
-    dec() {
+    dec = () => {
       debugger;
       this.setState(
         {
@@ -41,4 +45,4 @@ class Counter extends React.Component {
     }
   }
 
-export default Counter;  
+export default CounterInitialValue;  

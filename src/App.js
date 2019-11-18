@@ -3,8 +3,19 @@ import logo from './logo.svg';
 import './App.css';
 import Counter from './Counter';
 import Counter1 from './Counter1';
+import CounterInitialValue from './CounterInitialValue';
 
 function App() {
+
+  const priorityChanged = (v) => {
+    initialValues.val = v;
+  }
+
+  const initialValues = {
+    val: 3,
+    onChange: priorityChanged
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -21,8 +32,7 @@ function App() {
           Learn React
         </a>
 
-        <Counter></Counter>
-        <Counter1 init={1}></Counter1>
+        <CounterInitialValue props={initialValues} ></CounterInitialValue>
       </header>
     </div>
   );
