@@ -4,22 +4,17 @@ import { MobxService } from './services/MobxService';
 class Counter3 extends React.Component {
 
   myData = {
-    counter: 0
+    counter: 0,
+    test: 'sfsdfsdf',
+    numbers: []
   };
-
-  mobixService = null;
-  proxy = null;
-  updateState = () => {
-    this.setState({ a: new Date() });
-  }
-  rendered = () => { }
 
   constructor () {
     super();
 
-    this.mobixService = new MobxService(this.updateState).watch(this.myData);
-    this.myData = this.mobixService.subscribe('counter', (a, b) => {
-      console.log(a, b);
+    new MobxService(this, 'myData')
+    .subscribe('counter, test, numbers', () => {
+      console.log('rendered')
     });
 
   }
@@ -29,7 +24,7 @@ class Counter3 extends React.Component {
     // eslint-disable-next-line no-unused-vars
     const rrr = ()  =>{
       setTimeout(() => {
-        if (i > 900) {
+        if (i > 2) {
           return;
         }
         this.myData.counter++;
@@ -50,6 +45,15 @@ class Counter3 extends React.Component {
     this.myData.counter--;
   }
 
+  testChanged = (e) => {
+    console.log('handle change called');
+    this.myData.test = e.target.value;
+  }
+
+  num = () => {
+    this.myData.numbers.push(Math.random());
+  }
+  
   render() {
     return (
       <div>
@@ -59,7 +63,11 @@ class Counter3 extends React.Component {
 
         <input type="text" value={this.myData.counter} ></input>
 
+        <input type="text" value={this.myData.test} onChange={this.testChanged} ></input>
+
         <button onClick={this.inc}>+</button>
+
+        <button onClick={this.num}>numbers</button>
       </div>);
   }
 }

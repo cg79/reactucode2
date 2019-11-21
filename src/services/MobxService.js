@@ -2,48 +2,51 @@
 import { observe } from 'rxjs-observe';
 
 export class MobxService {
-    _proxy;
-    _observables;
+  _proxy;
+  _observables;
 
-    instance;
-    state;
+  object;
+  state;
+  component;
 
-    FUNC;
-    constructor(func) {
-           this.FUNC = func; 
-    }
+  constructor (component, objName) {
+    this.component = component;
 
-   watch(instance) {
-     this.instance = instance;
-    const { observables, proxy } = observe(instance);
+    this.object = component[objName];
+    const { observables, proxy } = observe(this.object);
+
     this._proxy = proxy;
     this._observables = observables;
+
+    component[objName] = proxy;
     return this;
-   }
+  }
 
-   seeChanges(prop, obsProp, callback) {
-    this.instance[prop] = obsProp;
+  subscribe(listOfProperties, onAfterRendered) {
+    
+    const props = listOfProperties.replace(/ +/, '').split(',');
+    props.forEach(prop => {
+      const obsProp = this._observables[prop];
+      if (obsProp) {
+        this.seeChanges(prop, obsProp, onAfterRendered);
+      }
+    })
+
+    return this;
+  }
+
+  seeChanges(prop, obsProp, onAfterRendered) {
+    this.object[prop] = obsProp;
     obsProp.subscribe((value) => {
-        this.instance[prop] = value; 
+      this.object[prop] = value;
       console.log(value);
-      this.FUNC();
-      // if(callback) {
-      //   callback();
-      // }
-      // this.ref.markForCheck();
+
+      this.component && this.component.setState(
+        { 
+          a: new Date() 
+        },onAfterRendered
+        );
     });
-
-   }
-   subscribe(listOfProperties,callback = null) {
-     const props = listOfProperties.split(',');
-     props.forEach(prop => {
-       const obsProp = this._observables[prop];
-       if(obsProp) {
-           this.seeChanges(prop, obsProp, callback);
-                }
-     })
-
-     return this._proxy;
-   }
+  }
 
 }

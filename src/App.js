@@ -23,10 +23,11 @@ function App() {
           Learn React
         </a>
 
-        <Counter></Counter>
-        <Counter1 init={1}></Counter1>
-        <Counter2 init={1}></Counter2>
         <Counter3 init={1}></Counter3>
+        {/* <Counter></Counter>
+        <Counter1 init={1}></Counter1>
+        
+        {/* <Counter3 init={1}></Counter3> */}
       </header>
     </div>
   );
