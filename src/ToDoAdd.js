@@ -1,5 +1,5 @@
 import React from 'react';
-
+import ToDoItem from './ToDoItem';
 class ToDoAdd extends React.Component {
 
   constructor () {
@@ -92,21 +92,16 @@ class ToDoAdd extends React.Component {
             SAVE
           </button>
         </form>
-       
+
         <ul>
           {this.state.list.map((item) => {
             return <li key={item.name}>
-              {item.name}
-              <input type="checkbox"
-                onChange={() => this.handleCheck(item)}
-                defaultChecked={item.selected} />
-              <button onClick={() => this.deleteTodo(item.id)}>
-                Delete
-              </button>
-              <button onClick={() => this.editTodo(item)}>
-                Edit
-              </button>
-
+              <ToDoItem
+                item={item}
+                handleCheck={this.handleCheck}
+                deleteTodo={this.deleteTodo}
+                editTodo={this.editTodo}
+              ></ToDoItem>
             </li>;
           })}
         </ul>
