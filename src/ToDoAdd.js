@@ -19,12 +19,13 @@ class ToDoAdd extends React.Component {
     });
   }
 
-  saveTodo = () => {
+  saveTodo = (event) => {
+    event.preventDefault();
     debugger;
     if (this.editID) {
       //const editIndex = this.state.list.findIndex(el => el.id === this.editID);
-     // this.state.list[editIndex].name = this.state.name;
-     this.editID.name=this.state.name;
+      // this.state.list[editIndex].name = this.state.name;
+      this.editID.name = this.state.name;
       this.setState({
         list: [...this.state.list],
         name: ''
@@ -68,48 +69,49 @@ class ToDoAdd extends React.Component {
   onChange = (event) => {
     this.setState({ name: event.target.value });
   }
-  handleCheck =(item) =>{
-    item.selected=!item.selected;
+  handleCheck = (item) => {
+    item.selected = !item.selected;
   }
   deletedSelected = () => {
-    const items = this.state.list.filter(el => !el.selected );
+    const items = this.state.list.filter(el => !el.selected);
     this.setState({
       list: items
-    }) 
+    })
   }
 
   render() {
-  
+
     return (
       <div>
-        <input type="text"
-          value={this.state.name}
-          onChange={this.onChange} >
-        </input>
-
-        <button onClick={this.saveTodo}>
-          SAVE
-        </button>
-
+        <form onSubmit={this.saveTodo}>
+          <input type="text"
+            value={this.state.name}
+            onChange={this.onChange} >
+          </input>
+          <button onClick={this.saveTodo}>
+            SAVE
+          </button>
+        </form>
+       
         <ul>
           {this.state.list.map((item) => {
             return <li key={item.name}>
               {item.name}
-              <input type="checkbox" 
-              onChange={() => this.handleCheck(item)} 
-              defaultChecked={item.selected}/>
+              <input type="checkbox"
+                onChange={() => this.handleCheck(item)}
+                defaultChecked={item.selected} />
               <button onClick={() => this.deleteTodo(item.id)}>
                 Delete
               </button>
               <button onClick={() => this.editTodo(item)}>
                 Edit
               </button>
-              
+
             </li>;
           })}
         </ul>
         <button onClick={() => this.deletedSelected()}>
-              Delete selected
+          Delete selected
               </button>
       </div>);
   }
