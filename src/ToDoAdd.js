@@ -68,6 +68,15 @@ class ToDoAdd extends React.Component {
   onChange = (event) => {
     this.setState({ name: event.target.value });
   }
+  handleCheck =(item) =>{
+    item.selected=!item.selected;
+  }
+  deletedSelected = () => {
+    const items = this.state.list.filter(el => !el.selected );
+    this.setState({
+      list: items
+    }) 
+  }
 
   render() {
   
@@ -86,15 +95,22 @@ class ToDoAdd extends React.Component {
           {this.state.list.map((item) => {
             return <li key={item.name}>
               {item.name}
+              <input type="checkbox" 
+              onChange={() => this.handleCheck(item)} 
+              defaultChecked={item.selected}/>
               <button onClick={() => this.deleteTodo(item.id)}>
                 Delete
               </button>
               <button onClick={() => this.editTodo(item)}>
                 Edit
               </button>
+              
             </li>;
           })}
         </ul>
+        <button onClick={() => this.deletedSelected()}>
+              Delete selected
+              </button>
       </div>);
   }
 }
