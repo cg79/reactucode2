@@ -2,11 +2,6 @@ import React from 'react';
 
 class ToDoItem extends React.Component {
 
-  constructor () {
-    super();
-   
-  }
-  
   render() {
     debugger;
     const { item,handleCheck,deleteTodo,editTodo } = this.props;

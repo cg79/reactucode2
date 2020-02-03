@@ -1,5 +1,6 @@
 import React from 'react';
 import ToDoItem from './ToDoItem';
+import axios from 'axios';
 class ToDoAdd extends React.Component {
 
   constructor () {
@@ -33,14 +34,23 @@ class ToDoAdd extends React.Component {
       this.editID = null;
       return;
     }
-    const items = this.state.list.concat({
+    const newTodo = {
       name: this.state.name,
       id: this.guid()
-    });
+    }
+    const items = this.state.list.concat(newTodo);
     this.setState({
       list: items,
       name: ''
     })
+
+    //todoActions.insert(newTodo);
+
+    axios({
+      method: 'post',
+      url: 'http://localhost:3002/todo',
+      data: newTodo
+    });
     localStorage.setItem('xxx', JSON.stringify(this.state));
   }
 
@@ -88,7 +98,7 @@ class ToDoAdd extends React.Component {
             value={this.state.name}
             onChange={this.onChange} >
           </input>
-          <button onClick={this.saveTodo}>
+          <button className="btn" onClick={this.saveTodo}>
             SAVE
           </button>
         </form>
@@ -105,9 +115,10 @@ class ToDoAdd extends React.Component {
             </li>;
           })}
         </ul>
-        <button onClick={() => this.deletedSelected()}>
+        <button className="btn" onClick={() => this.deletedSelected()}>
           Delete selected
               </button>
+
       </div>);
   }
 }
