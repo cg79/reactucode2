@@ -19,7 +19,25 @@ class ToDoAdd extends React.Component {
       return v.toString(16);
     });
   }
-
+  componentDidMount(){
+    this.getData();
+  }
+  getData(){
+    debugger
+    axios({
+      method: 'get',
+      url: 'http://localhost:3002/todo',
+      
+    }).then((response) => {
+      console.log(response);
+      this.setState({
+        list: [...response.data],
+        name: ''
+      });
+    }, (error) => {
+      console.log(error);
+    });
+  }
   saveTodo = (event) => {
     event.preventDefault();
     debugger;
@@ -31,7 +49,18 @@ class ToDoAdd extends React.Component {
         list: [...this.state.list],
         name: ''
       });
-      this.editID = null;
+      axios({
+        method: 'patch',
+        url: 'http://localhost:3002/todo',
+        data:this.editID
+      }).then((response) => {
+        console.log(response);
+        this.editID = null;
+      }, (error) => {
+        console.log(error);
+        this.editID = null;
+      });
+      
       return;
     }
     const newTodo = {
@@ -73,7 +102,19 @@ class ToDoAdd extends React.Component {
     this.setState({
       list: items
     })
-    localStorage.setItem('xxx', JSON.stringify(this.state));
+    axios({
+      method: 'delete',
+      url: 'http://localhost:3002/todo',
+      data: {
+        id
+      }
+    }).then((response) => {
+      console.log(response);
+      this.editID = null;
+    }, (error) => {
+      console.log(error);
+      this.editID = null;
+    });
   }
 
   onChange = (event) => {
